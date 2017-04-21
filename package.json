@@ -1,0 +1,19 @@
+{
+  "name": "melon-chart-api",
+  "version": "1.0.0",
+  "description": "Melon Music Chart API",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "author": "Hyunchel Kim <hyunchel.inbox@gmail.com> (http://hyunchel.me)",
+  "license": "MIT",
+  "dependencies": {
+    "ava": "^0.19.1",
+    "cheerio": "^0.22.0",
+    "date-fns": "^1.28.3",
+    "node-fetch": "^1.6.3",
+    "querystring": "^0.2.0",
+    "url-parse": "^1.1.8"
+  }
+}
