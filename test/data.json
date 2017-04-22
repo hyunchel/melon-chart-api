@@ -1,0 +1,68 @@
+{
+      "data": [
+            {
+                  "rank": "1",
+                  "title": "에라 모르겠다",
+                  "artist": "BIGBANG",
+                  "album": "MADE"
+            },
+            {
+                  "rank": "2",
+                  "title": "좋다고 말해",
+                  "artist": "볼빨간사춘기",
+                  "album": "Full Album RED PLANET `Hidden Track`"
+            },
+            {
+                  "rank": "3",
+                  "title": "Beautiful",
+                  "artist": "Crush",
+                  "album": "도깨비 OST Part 4"
+            },
+            {
+                  "rank": "4",
+                  "title": "LAST DANCE",
+                  "artist": "BIGBANG",
+                  "album": "MADE"
+            },
+            {
+                  "rank": "5",
+                  "title": "저 별",
+                  "artist": "헤이즈 (Heize)",
+                  "album": "저 별"
+            },
+            {
+                  "rank": "6",
+                  "title": "Stay With Me",
+                  "artist": "찬열 (CHANYEOL), 펀치 (Punch)",
+                  "album": "도깨비 OST Part.1"
+            },
+            {
+                  "rank": "7",
+                  "title": "Decalcomanie (데칼코마니)",
+                  "artist": "마마무",
+                  "album": "MEMORY"
+            },
+            {
+                  "rank": "8",
+                  "title": "GIRLFRIEND",
+                  "artist": "BIGBANG",
+                  "album": "MADE"
+            },
+            {
+                  "rank": "9",
+                  "title": "TT",
+                  "artist": "TWICE (트와이스)",
+                  "album": "TWICEcoaster : LANE 1"
+            },
+            {
+                  "rank": "10",
+                  "title": "이 바보야",
+                  "artist": "정승환",
+                  "album": "목소리"
+            }
+      ],
+      "dates": {
+            "start": "20161219",
+            "end": "20161225"
+      }
+}

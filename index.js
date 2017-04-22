@@ -101,7 +101,7 @@ function createMessageData(chartData, cutLine, dates) {
  */
 function weekly(date, options) {
   const opts = populateOptions(options);
-  const dateManager = dateRange(opts.date);
+  const dateManager = dateRange(date);
   const cutLine = opts.cutLine
   const xpath = opts.xpath;
   const dates = dateManager.weekly();
