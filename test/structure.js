@@ -1,5 +1,5 @@
 import test from 'ava';
-import weekly from '.';
+import weekly from '..';
 
 test.beforeEach(t => {
   const options = {
@@ -12,7 +12,6 @@ test.beforeEach(t => {
 
 test('length ranks', t => {
   return t.context.weekly.then(chart => {
-    console.log(chart);
     t.is(chart.data.length, t.context.options.cutLine);
   });
 })
