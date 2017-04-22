@@ -1,5 +1,7 @@
 # Melon Chart API
 
+[![Build Status](https://travis-ci.org/hyunchel/melon-chart-api.svg?branch=master)](https://travis-ci.org/hyunchel/melon-chart-api)
+
 Scrapes Melon Music chart data from Melon Music website.
 
 ## Install
