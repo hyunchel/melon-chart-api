@@ -4,6 +4,9 @@ const startOfWeek = require('date-fns/start_of_week');
 const endOfWeek = require('date-fns/end_of_week');
 const subWeeks = require('date-fns/sub_weeks');
 const isThisWeek = require('date-fns/is_this_week');
+const isThisMonth = require('date-fns/is_this_month');
+const isFuture = require('date-fns/is_future');
+const subMonths = require('date-fns/sub_months');
 const formatDate = require('date-fns/format');
 const parseDate = require('date-fns/parse');
 const queryString = require('querystring');
@@ -18,6 +21,18 @@ const dateRange = (function(date) {
   const format = 'YYYYMMDD';
 
   return {
+    daily: function() {
+      let startDate = dateObj;
+      let endDate = dateObj;
+      if (isFuture(dateObj)) {
+        startDate = new Date();
+        endDate = new Date();
+      };
+      return {
+        'start': formatDate(startDate, format),
+        'end': formatDate(endDate, format)
+      };
+    },
     weekly: function() {
       const option = { weekStartsOn: 1 };
       const includedDate = (isThisWeek(dateObj, option)) ? subWeeks(dateObj, 1) : dateObj;
@@ -29,37 +44,52 @@ const dateRange = (function(date) {
         'start': formatDate(startDate, format),
         'end': formatDate(endDate, format)
       };
-    }
+    },
+    monthly: function() {
+      const monthFormat = 'YYYYMM';
+      let startDate = dateObj;
+      let endDate = dateObj;
+      if (isThisMonth(dateObj) || isFuture(dateObj)) {
+        const lastMonth = subMonths(new Date(), 1);
+        startDate = lastMonth;
+        endDate = lastMonth;
+      };
+      return {
+        'start': formatDate(startDate, monthFormat),
+        'end': formatDate(endDate, monthFormat)
+      };
+    },
   }
 });
 
 /**
  * URL parsing functions.
  */
-function composeUrl(parsed) {
+function makeUrlString(parsed) {
   return 'http://' + parsed.hostname + parsed.pathname + '?' + parsed.query;
 }
 
-function mangleUrl(dates, options) {
-  const startDate = dates.start.toString();
-  const endDate = dates.end.toString();
-  const isFirstDate = false;
-  const isLastDate = false;
-  const moved = 'Y';
-  const index = options.cutLine > 50 ? 0 : 1;
-  const parsed = parse(options.url);
-  // querystring module parses with unwanted character '?'
-  const query = parsed.query.slice(1);
-  const decoded = queryString.parse(query);
-  decoded[options.startDateKey] = startDate;
-  decoded[options.endDateKey] = endDate;
-  decoded[options.isFirstDateKey] = isFirstDate;
-  decoded[options.isLastDateKey] = isLastDate;
-  decoded[options.movedKey] = moved;
-  decoded[options.indexKey] = index;
+function composeUrl(period, dates, options) {
+  // Base attributes which all charts need.
+  let url = options.url;
+  const decoded = {};
+  decoded[options.indexKey] = options.cutLine > 50 ? 0 : 1;
+  decoded[options.movedKey] = 'Y';
+  if (period === 'week') {
+    url = options.url.replace('day', 'week');
+    decoded[options.startDateKey] = dates.start.toString();
+    decoded[options.endDateKey] = dates.end.toString();
+    decoded[options.isFirstDateKey] = false;
+    decoded[options.isLastDateKey] = false;
+  }
+  if (period === 'month') {
+    url = options.url.replace('day', 'month');
+    decoded[options.rankMonthKey] = dates.start.toString();
+  }
+  const parsed = parse(url);
   const encoded = queryString.stringify(decoded);
   parsed.query = encoded;
-  return composeUrl(parsed);
+  return makeUrlString(parsed);
 };
 
 /**
@@ -97,20 +127,43 @@ function createMessageData(chartData, cutLine, dates) {
 }
 
 /**
- * Main.
+ * Melon class.
  */
-function weekly(date, options) {
+function Melon(date, options) {
   const opts = populateOptions(options);
   const dateManager = dateRange(date);
-  const cutLine = opts.cutLine
+  const cutLine = opts.cutLine;
   const xpath = opts.xpath;
-  const dates = dateManager.weekly();
-  const url = mangleUrl(dates, opts);
-  return fetchHtmlText(url)
-    .then(function(htmlText) {
-      const chartData = extractChart(htmlText, xpath);
-      return createMessageData(chartData, cutLine, dates);
-    });
+  const scrapeMelon = function(url, dates) {
+    return fetchHtmlText(url)
+      .then(function(htmlText) {
+        const chartData = extractChart(htmlText, xpath);
+        return createMessageData(chartData, cutLine, dates);
+      });
+  };
+  return {
+    daily: function() {
+      // NOTE: Dates are not needed for daily chart
+      //       as Melon Music Chart does not provide previous daily charts.
+      //       Daily chart will always fetch today's chart.
+      const dates = dateManager.daily();
+      const period = 'day';
+      const url = composeUrl(period, dates, opts);
+      return scrapeMelon(url, dates);
+    },
+    weekly: function() {
+      const dates = dateManager.weekly();
+      const period = 'week';
+      const url = composeUrl(period, dates, opts);
+      return scrapeMelon(url, dates);
+    },
+    monthly: function() {
+      const dates = dateManager.monthly();
+      const period = 'month';
+      const url = composeUrl(period, dates, opts);
+      return scrapeMelon(url, dates);
+    }
+  }
 }
 
-module.exports = weekly;
+module.exports = Melon

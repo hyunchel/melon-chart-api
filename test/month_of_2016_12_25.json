@@ -1,0 +1,68 @@
+{
+    "data": [
+        {
+            "rank": "1",
+            "title": "저 별",
+            "artist": "헤이즈 (Heize)",
+            "album": "저 별"
+        },
+        {
+            "rank": "2",
+            "title": "에라 모르겠다",
+            "artist": "BIGBANG",
+            "album": "MADE"
+        },
+        {
+            "rank": "3",
+            "title": "이 바보야",
+            "artist": "정승환",
+            "album": "목소리"
+        },
+        {
+            "rank": "4",
+            "title": "Decalcomanie (데칼코마니)",
+            "artist": "마마무",
+            "album": "MEMORY"
+        },
+        {
+            "rank": "5",
+            "title": "TT",
+            "artist": "TWICE (트와이스)",
+            "album": "TWICEcoaster : LANE 1"
+        },
+        {
+            "rank": "6",
+            "title": "Stay With Me",
+            "artist": "찬열 (CHANYEOL), 펀치 (Punch)",
+            "album": "도깨비 OST Part.1"
+        },
+        {
+            "rank": "7",
+            "title": "BERMUDA TRIANGLE (Feat. Crush, DEAN)",
+            "artist": "지코 (ZICO)",
+            "album": "BERMUDA TRIANGLE"
+        },
+        {
+            "rank": "8",
+            "title": "나비잠 (Sweet Dream)",
+            "artist": "김희철X민경훈",
+            "album": "나비잠 (Sweet Dream)"
+        },
+        {
+            "rank": "9",
+            "title": "LAST DANCE",
+            "artist": "BIGBANG",
+            "album": "MADE"
+        },
+        {
+            "rank": "10",
+            "title": "우주를 줄게",
+            "artist": "볼빨간사춘기",
+            "album": "Full Album RED PLANET"
+        }
+    ],
+    "dates": {
+        "start": "201612",
+        "end": "201612"
+    }
+}
