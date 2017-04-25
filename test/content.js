@@ -30,7 +30,6 @@ test('content - weekly', t => {
   });
 });
 
-const fs = require('fs');
 test('content - monthly', t => {
   return t.context.monthly.then(chart => {
     t.deepEqual(chart, JSON_MONTH_OF_2016_12_25);
