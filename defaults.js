@@ -11,7 +11,7 @@ const INDEX_KEY = 'idx';
 const URL = 'http://www.melon.com/chart/day/index.htm?';
 const CUTLINE = 5;
 const XPATH = {
-  songTitles: '.wrap_song_info .rank01 span',
+  songTitles: '.wrap_song_info .rank01 span a',
   artistNames: '.wrap_song_info .rank02 span',
   albumNames: '.wrap_song_info .rank03 a'
 };
