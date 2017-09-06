@@ -122,10 +122,16 @@ function createMessageData(chartData, cutLine, dates) {
   };
 }
 
+const scrapeMelon = function scrapeMelon(url, dates, opts = {}) {
+  return fetchHtmlText(url)
+    .then((htmlText) => {
+      const chartData = extractChart(htmlText, opts.xpath);
+      return createMessageData(chartData, opts.cutLine, dates);
+    });
+};
+
 module.exports = {
   dateRange,
-  extractChart,
-  createMessageData,
+  scrapeMelon,
   composeUrl,
-  fetchHtmlText,
 };

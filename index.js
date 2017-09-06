@@ -2,10 +2,8 @@ const populateOptions = require('./defaults');
 
 const {
   dateRange,
-  extractChart,
-  createMessageData,
+  scrapeMelon,
   composeUrl,
-  fetchHtmlText,
 } = require('./helpers');
 
 /**
@@ -14,15 +12,6 @@ const {
 function Melon(date, options) {
   const opts = populateOptions(options);
   const dateManager = dateRange(date);
-  const { cutLine, xpath } = opts;
-  // const { xpath } = opts;
-  const scrapeMelon = function scrapeMelon(url, dates) {
-    return fetchHtmlText(url)
-      .then((htmlText) => {
-        const chartData = extractChart(htmlText, xpath);
-        return createMessageData(chartData, cutLine, dates);
-      });
-  };
   return {
     daily() {
       // NOTE: Dates are not needed for daily chart
@@ -31,19 +20,19 @@ function Melon(date, options) {
       const dates = dateManager.daily();
       const period = 'day';
       const url = composeUrl(period, dates, opts);
-      return scrapeMelon(url, dates);
+      return scrapeMelon(url, dates, opts);
     },
     weekly() {
       const dates = dateManager.weekly();
       const period = 'week';
       const url = composeUrl(period, dates, opts);
-      return scrapeMelon(url, dates);
+      return scrapeMelon(url, dates, opts);
     },
     monthly() {
       const dates = dateManager.monthly();
       const period = 'month';
       const url = composeUrl(period, dates, opts);
-      return scrapeMelon(url, dates);
+      return scrapeMelon(url, dates, opts);
     },
   };
 }
