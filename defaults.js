@@ -15,7 +15,7 @@ const XPATH = {
   artistNames: '.wrap_song_info .rank02 span',
   albumNames: '.wrap_song_info .rank03 a',
 };
-const MESSAGE_FN = function () {
+const MESSAGE_FN = function MESSAGE_FN() {
   console.log('no messageFn is provied');
 };
 

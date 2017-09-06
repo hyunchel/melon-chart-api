@@ -9,14 +9,14 @@ import {
 } from 'date-fns';
 import { dateRange } from '../helpers';
 
-const isValidDaily = function (startDate, endDate, givenDate) {
+const isValidDaily = function isValidDaily(startDate, endDate, givenDate) {
   const start = parse(startDate);
   const end = parse(endDate);
   const given = parse(givenDate);
   return (isSameDay(start, given)) && (isSameDay(end, given));
 };
 
-const isValidWeekly = function (startDate, endDate) {
+const isValidWeekly = function isValidWeekly(startDate, endDate) {
   const start = parse(startDate);
   const end = parse(endDate);
   return (differenceInWeeks(start, end) === 0) &&
@@ -25,7 +25,7 @@ const isValidWeekly = function (startDate, endDate) {
     (isSunday(end));
 };
 
-const isValidMonthly = function (startDate, endDate) {
+const isValidMonthly = function isValidMonthly(startDate, endDate) {
   return (startDate === endDate);
 };
 

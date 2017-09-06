@@ -15,7 +15,7 @@ const parse = require('url-parse');
 /**
 * Date parsing functions.
 */
-const dateRange = (function (date = Date()) {
+const dateRange = function dateRange(date = Date()) {
   // Guard date parameter from being undefined or null.
   // parseDate function will split out "Invalid Date" for undefined,
   // and the beginning of Epoch time if null.
@@ -58,7 +58,7 @@ const dateRange = (function (date = Date()) {
       };
     },
   };
-});
+};
 
 /**
 * URL parsing functions.

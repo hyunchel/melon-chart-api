@@ -16,7 +16,7 @@ function Melon(date, options) {
   const dateManager = dateRange(date);
   const { cutLine, xpath } = opts;
   // const { xpath } = opts;
-  const scrapeMelon = function (url, dates) {
+  const scrapeMelon = function scrapeMelon(url, dates) {
     return fetchHtmlText(url)
       .then((htmlText) => {
         const chartData = extractChart(htmlText, xpath);
