@@ -15,18 +15,17 @@ const parse = require('url-parse');
 /**
 * Date parsing functions.
 */
-const dateRange = (function (date) {
-  const dateObj = parseDate(date);
+const dateRange = (function (date = Date()) {
+  // Guard date parameter from being undefined or null.
+  // parseDate function will split out "Invalid Date" for undefined,
+  // and the beginning of Epoch time if null.
+  const dateObj = parseDate(date === null || isFuture(date) ? Date() : date);
   const format = 'YYYYMMDD';
 
   return {
     daily() {
-      let startDate = dateObj;
-      let endDate = dateObj;
-      if (isFuture(dateObj)) {
-        startDate = new Date();
-        endDate = new Date();
-      }
+      const startDate = dateObj;
+      const endDate = dateObj;
       return {
         start: formatDate(startDate, format),
         end: formatDate(endDate, format),
