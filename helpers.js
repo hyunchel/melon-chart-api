@@ -1,3 +1,4 @@
+const queryString = require('querystring');
 const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 const startOfWeek = require('date-fns/start_of_week');
@@ -9,30 +10,29 @@ const isFuture = require('date-fns/is_future');
 const subMonths = require('date-fns/sub_months');
 const formatDate = require('date-fns/format');
 const parseDate = require('date-fns/parse');
-const queryString = require('querystring');
 const parse = require('url-parse');
 
 /**
- * Date parsing functions.
- */
-const dateRange = (function(date) {
+* Date parsing functions.
+*/
+const dateRange = (function (date) {
   const dateObj = parseDate(date);
   const format = 'YYYYMMDD';
 
   return {
-    daily: function() {
+    daily() {
       let startDate = dateObj;
       let endDate = dateObj;
       if (isFuture(dateObj)) {
         startDate = new Date();
         endDate = new Date();
-      };
+      }
       return {
-        'start': formatDate(startDate, format),
-        'end': formatDate(endDate, format)
+        start: formatDate(startDate, format),
+        end: formatDate(endDate, format),
       };
     },
-    weekly: function() {
+    weekly() {
       const option = { weekStartsOn: 1 };
       const includedDate = (isThisWeek(dateObj, option)) ? subWeeks(dateObj, 1) : dateObj;
 
@@ -40,11 +40,11 @@ const dateRange = (function(date) {
       const endDate = endOfWeek(includedDate, option);
 
       return {
-        'start': formatDate(startDate, format),
-        'end': formatDate(endDate, format)
+        start: formatDate(startDate, format),
+        end: formatDate(endDate, format),
       };
     },
-    monthly: function() {
+    monthly() {
       const monthFormat = 'YYYYMM';
       let startDate = dateObj;
       let endDate = dateObj;
@@ -52,25 +52,25 @@ const dateRange = (function(date) {
         const lastMonth = subMonths(new Date(), 1);
         startDate = lastMonth;
         endDate = lastMonth;
-      };
+      }
       return {
-        'start': formatDate(startDate, monthFormat),
-        'end': formatDate(endDate, monthFormat)
+        start: formatDate(startDate, monthFormat),
+        end: formatDate(endDate, monthFormat),
       };
     },
-  }
+  };
 });
 
 /**
- * URL parsing functions.
- */
+* URL parsing functions.
+*/
 function makeUrlString(parsed) {
-  return 'http://' + parsed.hostname + parsed.pathname + '?' + parsed.query;
+  return `http://${parsed.hostname}${parsed.pathname}?${parsed.query}`;
 }
 
 function composeUrl(period, dates, options) {
   // Base attributes which all charts need.
-  let url = options.url;
+  let { url } = options;
   const decoded = {};
   decoded[options.indexKey] = options.cutLine > 50 ? 0 : 1;
   decoded[options.movedKey] = 'Y';
@@ -89,39 +89,37 @@ function composeUrl(period, dates, options) {
   const encoded = queryString.stringify(decoded);
   parsed.query = encoded;
   return makeUrlString(parsed);
-};
+}
 
 /**
- * HTML parsing functions.
- */
+* HTML parsing functions.
+*/
 function extractChart(htmlText, xpath) {
-    const $ = cheerio.load(htmlText);
+  const $ = cheerio.load(htmlText);
 
-    function trimText(i, el) {
-      return $(this).text().trim();
-    }
+  function trimText() {
+    return $(this).text().trim();
+  }
 
-    const songTitles = $(xpath.songTitles).map(trimText).get();
-    const artistNames = $(xpath.artistNames).map(trimText).get();
-    const albumNames = $(xpath.albumNames).map(trimText).get();
-    return songTitles.map(function(el, i) {
-      return {
-        'rank': (i + 1).toString(),
-        'title': el,
-        'artist': artistNames[i],
-        'album': albumNames[i]
-      }
-    });
-};
+  const songTitles = $(xpath.songTitles).map(trimText).get();
+  const artistNames = $(xpath.artistNames).map(trimText).get();
+  const albumNames = $(xpath.albumNames).map(trimText).get();
+  return songTitles.map((el, i) => ({
+    rank: (i + 1).toString(),
+    title: el,
+    artist: artistNames[i],
+    album: albumNames[i],
+  }));
+}
 
 function fetchHtmlText(url) {
   return fetch(url).then(resp => resp.text());
-};
+}
 
 function createMessageData(chartData, cutLine, dates) {
   return {
     data: chartData.slice(0, cutLine),
-    dates: dates
+    dates,
   };
 }
 
@@ -130,5 +128,5 @@ module.exports = {
   extractChart,
   createMessageData,
   composeUrl,
-  fetchHtmlText
+  fetchHtmlText,
 };
