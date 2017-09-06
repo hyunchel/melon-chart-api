@@ -13,7 +13,7 @@ $ npm install --save melon-chart-api
 ## Usage
 
 ```js
-const Melon from 'melon-chart-api';
+const Melon = require('melon-chart-api');
 Melon('04/24/2017', { cutLine: 5 }).daily().then(chartData => {
   console.log(chartData);
 })
