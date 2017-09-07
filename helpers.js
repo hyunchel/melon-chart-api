@@ -7,6 +7,7 @@ const subWeeks = require('date-fns/sub_weeks');
 const isThisWeek = require('date-fns/is_this_week');
 const isThisMonth = require('date-fns/is_this_month');
 const isFuture = require('date-fns/is_future');
+const isValid = require('date-fns/is_valid');
 const subMonths = require('date-fns/sub_months');
 const formatDate = require('date-fns/format');
 const parseDate = require('date-fns/parse');
@@ -19,7 +20,7 @@ const dateRange = function dateRange(date = Date()) {
   // Guard date parameter from being undefined or null.
   // parseDate function will split out "Invalid Date" for undefined,
   // and the beginning of Epoch time if null.
-  const dateObj = parseDate(date === null || isFuture(date) ? Date() : date);
+  const dateObj = parseDate(date === null || !isValid(parseDate(date)) || isFuture(date) ? Date() : date);
   const format = 'YYYYMMDD';
 
   return {
