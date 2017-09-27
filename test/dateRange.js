@@ -70,3 +70,32 @@ test('date parsing - null', (t) => {
   const monthly = dr.monthly();
   t.true(isValidMonthly(monthly.start, monthly.end));
 });
+
+test('date parsing - empty string', (t) => {
+  const someDate = '';
+  const dr = dateRange(someDate);
+
+  const daily = dr.daily();
+  t.true(isValidDaily(daily.start, daily.end, new Date()));
+
+  const weekly = dr.weekly();
+  t.true(isValidWeekly(weekly.start, weekly.end));
+
+  const monthly = dr.monthly();
+  t.true(isValidMonthly(monthly.start, monthly.end));
+});
+
+
+test('date parsing - empty space', (t) => {
+  const someDate = ' ';
+  const dr = dateRange(someDate);
+
+  const daily = dr.daily();
+  t.true(isValidDaily(daily.start, daily.end, new Date()));
+
+  const weekly = dr.weekly();
+  t.true(isValidWeekly(weekly.start, weekly.end));
+
+  const monthly = dr.monthly();
+  t.true(isValidMonthly(monthly.start, monthly.end));
+});
