@@ -81,9 +81,22 @@ Type: `number`
 
 Default: `5`
 
+##### realtime
+
+Type: `boolean`
+
+Default: `false`
+
 ### methods
 
 All methods return a promise that results to Melon chart rankings in JSON.
+
+#### Melon.realtime()
+
+Returns realtime chart.
+This method will default to the latest "realtime" chart rankings.
+With `realtime` flag, the given date will be treated as "realtime", and will expect "hour" to be populated in the date.
+If "hour" is not populated, it defaults to midnight(`00`).
 
 #### Melon.daily()
 
