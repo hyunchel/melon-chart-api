@@ -13,6 +13,12 @@ function Melon(date, options) {
   const opts = populateOptions(options);
   const dateManager = dateRange(date);
   return {
+    realtime() {
+      const dates = dateManager.realtime();
+      const period = 'realtime';
+      const url = composeUrl(period, dates, opts);
+      return scrapeMelon(url, dates, opts);
+    },
     daily() {
       // NOTE: Dates are not needed for daily chart
       //       as Melon Music Chart does not provide previous daily charts.
