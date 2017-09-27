@@ -24,6 +24,15 @@ const dateRange = function dateRange(date = Date()) {
   const format = 'YYYYMMDD';
 
   return {
+    realtime() {
+      const realtimeFormat = format + 'HH';
+      const startDate = dateObj;
+      const endDate = dateObj;
+      return {
+        start: formatDate(startDate, realtimeFormat),
+        end: formatDate(endDate, realtimeFormat),
+      };
+    },
     daily() {
       const startDate = dateObj;
       const endDate = dateObj;
@@ -74,6 +83,13 @@ function composeUrl(period, dates, options) {
   const decoded = {};
   decoded[options.indexKey] = options.cutLine > 50 ? 0 : 1;
   decoded[options.movedKey] = 'Y';
+  if (period === 'realtime') {
+    url = options.url.replace('day/', '');
+    decoded[options.movedKey] = 'N';
+    if (options.realtime) {
+      decoded[options.dayTime] = dates.start.toString();
+    }
+  }
   if (period === 'week') {
     url = options.url.replace('day', 'week');
     decoded[options.startDateKey] = dates.start.toString();
