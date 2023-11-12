@@ -19,7 +19,7 @@ const MESSAGE_FN = function MESSAGE_FN() {
   console.log('no messageFn is provied');
 };
 
-function populateOptions(options) {
+function populateOptions(options = {}) {
   return {
     startDateKey: options.startDateKey || START_DATE_KEY,
     endDateKey: options.endDateKey || END_DATE_KEY,
